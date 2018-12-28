@@ -95,7 +95,7 @@ class BossSpider(object):
             education = pattern3.findall(str(job_info))[0]
             company_name = job_info.select('.company-text > h3 > a')[0].text
             industry = pattern1.findall(str(job_info))[1]
-            size = pattern3.findall(str(job_info))[1]
+            # size = pattern3.findall(str(job_info))[1]
             date = pattern4.findall(str(job_info))[0]
             job_data = {
                 'job_id': job_id,
@@ -107,7 +107,7 @@ class BossSpider(object):
                 'education': education,
                 'company_name': company_name,
                 'industry': industry,
-                'size': size,
+                # 'size': size,
                 'date': date,
             }
 
@@ -122,7 +122,7 @@ class BossSpider(object):
             print(education)
             print(company_name)
             print(industry)
-            print(size)
+            # print(size)
             print(date)
             print('-------')
 
