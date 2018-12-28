@@ -6,6 +6,7 @@ import re
 import json
 import requests
 import operator
+import sys
 
 from bs4 import BeautifulSoup
 
@@ -24,7 +25,10 @@ class BossSpider(object):
             handler = urllib.request.HTTPHandler()
             opener = urllib.request.build_opener(handler)
             content = opener.open(request)
-            self.parse_content(content)
+            try:
+                self.parse_content(content)
+            except IndexError:
+                pass
         string = json.dumps(self.items, ensure_ascii=False)
         with open(self.city + '_' + self.keyword + '.json', 'w', encoding='utf-8')as fp:
             fp.write(string)
@@ -47,7 +51,7 @@ class BossSpider(object):
 
         if operator.eq(self.city_code, 'bad'):
             print('no such city')
-            return None
+            sys.exit(0)
         else:
             url_now = self.url + '/' + 'c' + str(self.city_code) + '/?' + form_data
 
