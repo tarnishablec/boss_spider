@@ -35,11 +35,15 @@ class BossSpider(object):
 
     def __init__(self, keyword, city, start_page, end_page):
         self.keyword = keyword
-        self.city = city
+        self.city = self.normalize_city(city)
         self.city_code = self.get_addr_code(self.city)
         self.start_page = start_page
         self.end_page = end_page
         self.items = []
+
+    @staticmethod
+    def normalize_city(city):
+        return re.sub(r'市?\s*', '', city)
 
     def handle_request(self, page):
         data = {
