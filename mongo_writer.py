@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from spider import BossSpider
 
-conn = MongoClient('104.207.157.182', 27017)
+conn = MongoClient('xxx.xxx.xxx.xxx', 27017)
 
 db_spider = conn.spider
 
