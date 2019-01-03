@@ -133,6 +133,10 @@ class BossSpider(object):
             # print(date)
             # print('-------')
 
+    def to_json_file(self):
+        with open(self.city + '_' + self.keyword + '.json', 'w', encoding='utf-8')as fp:
+            fp.write(self.run())
+
 
 def main():
     keyword = input('please give a keyword: ')
@@ -141,8 +145,7 @@ def main():
     end_page = 10
 
     spider = BossSpider(keyword, city, start_page, end_page)
-    with open(spider.city + '_' + spider.keyword + '.json', 'w', encoding='utf-8')as fp:
-        fp.write(spider.run())
+    spider.to_json_file()
 
 
 if __name__ == '__main__':
