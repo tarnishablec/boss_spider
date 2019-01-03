@@ -29,11 +29,9 @@ class BossSpider(object):
                 self.parse_content(content)
             except IndexError:
                 pass
-        string = json.dumps(self.items, ensure_ascii=False)
-        print(string)
-        return string
+        return self.items
 
-    def __init__(self, keyword, city, start_page, end_page):
+    def __init__(self, keyword, city, start_page=1, end_page=10):
         self.keyword = keyword
         self.city = self.normalize_city(city)
         self.city_code = self.get_addr_code(self.city)
@@ -133,8 +131,9 @@ class BossSpider(object):
             # print('-------')
 
     def to_json_file(self):
+        string = json.dumps(self.items, ensure_ascii=False)
         with open(self.city + '_' + self.keyword + '.json', 'w', encoding='utf-8')as fp:
-            fp.write(self.run())
+            fp.write(string)
 
 
 def main():
