@@ -7,6 +7,7 @@ import json
 import requests
 import operator
 import sys
+import lxml
 
 from bs4 import BeautifulSoup
 
@@ -30,8 +31,8 @@ class BossSpider(object):
             except IndexError:
                 pass
         string = json.dumps(self.items, ensure_ascii=False)
-        with open(self.city + '_' + self.keyword + '.json', 'w', encoding='utf-8')as fp:
-            fp.write(string)
+        print(string)
+        return string
 
     def __init__(self, keyword, city, start_page, end_page):
         self.keyword = keyword
@@ -73,8 +74,6 @@ class BossSpider(object):
         json_loads = json.loads(city_json)
 
         for city_data in json_loads['data']['cityList']:
-            if operator.eq(city_data['name'], city):
-                return city_data['code']
             if city_data['subLevelModelList'] is not None:
                 for sub_city_data in city_data['subLevelModelList']:
                     if operator.eq(sub_city_data['name'], city):
@@ -85,7 +84,7 @@ class BossSpider(object):
         soup = BeautifulSoup(content, 'lxml')
         job_soup = soup.select('li > .job-primary')
 
-        print(job_soup[0])
+        # print(job_soup[0])
 
         pattern1 = re.compile(r'<p>(.+?)<em')
         pattern2 = re.compile(r'</em>(.+?)<em')
@@ -121,18 +120,18 @@ class BossSpider(object):
 
             self.items.append(job_data)
 
-            print(href)
-            print(job_id)
-            print(job_title)
-            print(salary)
-            print(addr_simple)
-            print(experience)
-            print(education)
-            print(company_name)
-            print(industry)
-            # print(size)
-            print(date)
-            print('-------')
+            # print(href)
+            # print(job_id)
+            # print(job_title)
+            # print(salary)
+            # print(addr_simple)
+            # print(experience)
+            # print(education)
+            # print(company_name)
+            # print(industry)
+            # # print(size)
+            # print(date)
+            # print('-------')
 
 
 def main():
@@ -142,7 +141,8 @@ def main():
     end_page = 10
 
     spider = BossSpider(keyword, city, start_page, end_page)
-    spider.run()
+    with open(spider.city + '_' + spider.keyword + '.json', 'w', encoding='utf-8')as fp:
+        fp.write(spider.run())
 
 
 if __name__ == '__main__':
