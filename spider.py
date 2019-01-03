@@ -7,7 +7,6 @@ import json
 import requests
 import operator
 import sys
-import lxml
 
 from bs4 import BeautifulSoup
 
