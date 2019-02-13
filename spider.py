@@ -13,7 +13,8 @@ from bs4 import BeautifulSoup
 
 class BossSpider(object):
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/71.0.3578.98 Safari/537.36 '
     }
     # url = 'https://www.zhipin.com/c101210100/?query=java&page=1&ka=page-1'
     url = 'https://www.zhipin.com'
