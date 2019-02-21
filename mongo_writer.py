@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from spider import BossSpider
+from jobListSpider import BossSpider
 
 conn = MongoClient('xxx.xxx.xxx.xxx', 27017)
 

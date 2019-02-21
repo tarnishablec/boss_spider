@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 单线程
 
 import urllib.request
 import urllib.parse

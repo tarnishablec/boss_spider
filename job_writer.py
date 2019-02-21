@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from spider import BossSpider
+from jobListSpider import BossSpider
 
 
 class JobWriter(object):
