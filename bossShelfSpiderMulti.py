@@ -47,7 +47,7 @@ class MultiJobShelfSpider:
 class CollectThread(threading.Thread):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/71.0.3578.98 Safari/537.36 '
+                      'Chrome/72.0.3626.109 Safari/537.36 '
     }
     # url = 'https://www.zhipin.com/c101210100/?query=java&page=1&ka=page-1'
     base_url = 'https://www.zhipin.com'
@@ -65,9 +65,7 @@ class CollectThread(threading.Thread):
 
     def run(self):
         print('collect begin')
-        while 1:
-            if self.index_queue.empty():
-                break
+        while not self.index_queue.empty():
             index = self.index_queue.get()
             full_url = self.joint_url() + str(index) + '&ka=page-' + str(index)
             print(full_url)
@@ -98,6 +96,7 @@ class ParseThread(threading.Thread):
     def run(self):
         print("parse begin")
         while 1:
+
             page = self.page_queue.get()
             self.parse_content(page)
 
