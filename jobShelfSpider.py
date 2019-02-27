@@ -93,7 +93,7 @@ class BossSpider(object):
         # print(job_soup[0])
         for job_info in job_soup:
             job_id = job_info.select('.name > a')[0]['data-jobid']
-            href = self.url + job_info.select('.name > a')[0]['href']
+            href = job_info.select('.name > a')[0]['href']
             job_title = job_info.select('.job-title')[0].text
             salary = job_info.select('span')[0].text
             addr_simple = pattern1.findall(str(job_info))[0]
@@ -104,14 +104,14 @@ class BossSpider(object):
             # size = pattern3.findall(str(job_info))[1]
             date = pattern4.findall(str(job_info))[0]
             job_data = {
-                'job_id': job_id,
+                'jobId': job_id,
                 'href': href,
-                'job_title': job_title,
+                'jobTitle': job_title,
                 'salary': salary,
-                'addr_simple': addr_simple,
+                'addrSimple': addr_simple,
                 'experience': experience,
                 'education': education,
-                'company_name': company_name,
+                'companyName': company_name,
                 'industry': industry,
                 # 'size': size,
                 'date': date,

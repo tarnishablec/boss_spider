@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from jobListSpider import BossSpider
+from jobShelfSpider import BossSpider
 
 conn = MongoClient('xxx.xxx.xxx.xxx', 27017)
 
@@ -7,7 +7,7 @@ db_spider = conn.spider
 
 spider = BossSpider('java', '南京', 1, 2)
 
-coll_name = spider.city + '_' + spider.keyword
+coll_name = spider.keyword + '_' + spider.city
 
 coll = db_spider[coll_name]
 

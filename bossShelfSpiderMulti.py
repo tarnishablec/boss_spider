@@ -5,13 +5,16 @@ from queue import Queue
 import requests
 import json
 from lxml import etree
+import time
 
 
 class MultiJobShelfSpider:
     ct_list = []
     pt_list = []
+    result = []
 
     def __init__(self, keyword, location):
+        self.lock = threading.Lock()
         self.keyword = keyword
         self.location = location
         self.index_queue = Queue()
@@ -33,6 +36,8 @@ class MultiJobShelfSpider:
         for pt in self.pt_list:
             pt.join()
 
+        return self.result
+
     def create_collect_thread(self):
         collect_name = ['c1', 'c2', 'c3']
         for name in collect_name:
@@ -41,7 +46,7 @@ class MultiJobShelfSpider:
     def create_parse_thread(self):
         parse_name = ['p1', 'p2', 'p3']
         for name in parse_name:
-            self.pt_list.append(ParseThread(name, self.page_queue))
+            self.pt_list.append(ParseThread(name, self.page_queue, self.result, self.lock))
 
 
 class CollectThread(threading.Thread):
@@ -70,6 +75,7 @@ class CollectThread(threading.Thread):
             full_url = self.joint_url() + str(index) + '&ka=page-' + str(index)
             print(full_url)
             r = requests.get(full_url, headers=self.headers)
+            time.sleep(0.05)
             self.page_queue.put(r.content)
         # print('collect over')
 
@@ -87,18 +93,20 @@ class CollectThread(threading.Thread):
 
 
 class ParseThread(threading.Thread):
-    def __init__(self, name, page_queue):
+    def __init__(self, name, page_queue, result, lock):
         super(ParseThread, self).__init__()
         self.name = name
         self.page_queue = page_queue
-        self.jobs_data = []
+        self.result = result
+        self.lock = lock
 
     def run(self):
         print("parse begin")
-        while 1:
-
-            page = self.page_queue.get()
-            self.parse_content(page)
+        time.sleep(1)
+        while not self.page_queue.empty():
+            while not self.page_queue.empty():
+                page = self.page_queue.get()
+                self.parse_content(page)
 
     def parse_content(self, page):
         tree = etree.HTML(page)
@@ -142,7 +150,9 @@ class ParseThread(threading.Thread):
                 # 'size': size,
                 'date': date,
             }
-            self.jobs_data.append(job_data)
+            self.lock.acquire()
+            self.result.append(job_data)
+            self.lock.release()
 
 
 def main():

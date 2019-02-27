@@ -1,10 +1,10 @@
 from pymongo import MongoClient
-from jobListSpider import BossSpider
+from bossShelfSpiderMulti import MultiJobShelfSpider
 
 
 class JobWriter(object):
-    conn = MongoClient(['144.202.33.124:27017', '144.202.33.124:27018', '144.202.33.124:27019'])
-    db = conn.get_database('jobs')
+    conn = MongoClient(['104.238.136.245:27017', '104.238.136.245:27018', '104.238.136.245:27019'])
+    db = conn.get_database('boss_job_shelf')
 
     def __init__(self, keyword, city):
         self.keyword = keyword
@@ -13,12 +13,12 @@ class JobWriter(object):
 
     def run(self):
         coll = self.db[self.coll_name]
-        spider = BossSpider(self.keyword, self.city)
+        spider = MultiJobShelfSpider(self.keyword, self.city)
         coll.insert_many(spider.run())
 
 
 def main():
-    writer = JobWriter('java', '南京')
+    writer = JobWriter('java', '杭州')
     writer.run()
 
 
