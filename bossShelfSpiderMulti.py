@@ -1,5 +1,3 @@
-# 多线程
-
 import threading
 from queue import Queue
 import requests
@@ -46,7 +44,7 @@ class MultiJobShelfSpider:
     def create_parse_thread(self):
         parse_name = ['p1', 'p2', 'p3']
         for name in parse_name:
-            self.pt_list.append(ParseThread(name, self.page_queue, self.result, self.lock))
+            self.pt_list.append(ParseThread(name, self.page_queue, self.result))
 
 
 class CollectThread(threading.Thread):
@@ -93,16 +91,15 @@ class CollectThread(threading.Thread):
 
 
 class ParseThread(threading.Thread):
-    def __init__(self, name, page_queue, result, lock):
+    def __init__(self, name, page_queue, result):
         super(ParseThread, self).__init__()
         self.name = name
         self.page_queue = page_queue
         self.result = result
-        self.lock = lock
 
     def run(self):
         print("parse begin")
-        time.sleep(1)
+        time.sleep(1.5)
         while not self.page_queue.empty():
             while not self.page_queue.empty():
                 page = self.page_queue.get()
@@ -150,13 +147,11 @@ class ParseThread(threading.Thread):
                 # 'size': size,
                 'date': date,
             }
-            self.lock.acquire()
             self.result.append(job_data)
-            self.lock.release()
 
 
 def main():
-    keyword = 'python'
+    keyword = 'java'
     city = '南京'
 
     spider = MultiJobShelfSpider(keyword, city)

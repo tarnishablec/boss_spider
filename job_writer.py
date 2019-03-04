@@ -4,7 +4,7 @@ from bossShelfSpiderMulti import MultiJobShelfSpider
 
 class JobWriter(object):
     conn = MongoClient(['104.238.136.245:27017', '104.238.136.245:27018', '104.238.136.245:27019'])
-    db = conn.get_database('boss_job_shelf')
+    db = conn.get_database('boss_job_shelf1')
 
     def __init__(self, keyword, city):
         self.keyword = keyword
